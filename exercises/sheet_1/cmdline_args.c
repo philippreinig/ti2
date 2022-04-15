@@ -27,23 +27,11 @@ int main(int argc, char* argv[]){
         } 
     }
 
-
-
     char digit1 = (int) argv[1][0];
     char digit2 = (int) argv[2][0];
     int digit1_val = digit1 - '0';
     int digit2_val = digit2 - '0';
     printf("%i*%i=%i\n",  digit1_val, digit2_val , digit1_val * digit2_val);
-    
-
-
-
-
-
-	// for(int i=1; i<argc; ++i)
-	// 	printf("argv[%i]: %s -> %u\n",i, argv[i], length_of_string(argv[i]));
-
-    // printf("%i*%i=%i\n", argv[1], argv[2]);
 
 	return 0;
 }
