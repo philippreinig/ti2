@@ -24,21 +24,27 @@ gcc -o threads -lpthreads threads.c
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#define _GNU_SOURCE
 
-void* print_infintely(void* indx_p){
-    int* indx = (int*) indx_p;
-    printf("print_infintely called with argument: %i (PID:%u, %u)\n", (*indx), getpid(), getppid());
+void *print_infintely(void *indx_p)
+{
+    int *indx = (int *)indx_p;
+    printf("print_infintely called with argument: %i (PID:%u, %lu, %u, %u)\n", (*indx), gettid(), pthread_self(), getpid(), getppid());
     int i;
-    for(int i = 0; 1; ++i){
+    for (int i = 0; 1; ++i)
+    {
         printf("Thread %i (%i): Hello World!\n", *indx, i);
         sleep(5);
     }
-    return (void*) NULL;
+    return (void *)NULL;
 }
 
-int main(int argc, char* argv[]){
-    
-    if (argc != 2){
+int main(int argc, char *argv[])
+{
+
+    if (argc != 2)
+    {
         printf("ERROR: Invalid amount of arguments - exactly 2 required!\n");
         return -1;
     }
@@ -51,18 +57,20 @@ int main(int argc, char* argv[]){
 
     printf("n=%i\n", n);
 
-    for(int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i)
+    {
         ids[i] = i;
-        thread_return_vals[i] = pthread_create(&pids[i], NULL, print_infintely, (void*) &ids[i]);
+        thread_return_vals[i] = pthread_create(&pids[i], NULL, print_infintely, (void *)&ids[i]);
     }
 
-    for(int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i)
+    {
         pthread_join(pids[i], NULL);
     }
 
-    for(int i = 0; i < n; ++i){
-        printf("thread_return_vals[%i]=%i\n", i, thread_return_vals[i]);
-    }
-    
+    // for(int i = 0; i < n; ++i){
+    //     printf("thread_return_vals[%i]=%i\n", i, thread_return_vals[i]);
+    // }
+
     return 0;
 }
